@@ -2,21 +2,31 @@ syntax = "proto3";
 
 option csharp_namespace = "ClinicServiceNamespace";
 
-
-
-// https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/wrappers.proto
-
 import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
 
 
+package proto;
 
+// Имя сервиса
 service ClinicService{
 
+    // Добавление клиента
 	rpc CreateClinet (CreateClientRequest) returns (CreateClientResponse);
+    // Обновление клиента
 	rpc UpdateClient (UpdateClientRequest) returns (UpdateClientResponse);
+    // Удаление клиента
 	rpc DeleteClient (DeleteClientRequest) returns (DeleteClientResponse);
+    // Полусить клиента по Id
 	rpc GetClientById (GetClientByIdRequest) returns (ClientResponse);
-	rpc GetClients (GetClientsRequest) returns (GetClientsResponse);
+    // Получить всех клиентов
+	rpc GetClients (GetClientsRequest) returns (GetClientsResponse)
+    {
+        option (google.api.http)={
+            get: "/api/clients"
+        };
+    }
+
 }
 
 
