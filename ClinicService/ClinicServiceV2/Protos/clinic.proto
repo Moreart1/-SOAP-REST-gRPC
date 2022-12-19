@@ -2,21 +2,50 @@ syntax = "proto3";
 
 option csharp_namespace = "ClinicServiceNamespace";
 
-
-
-// https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/wrappers.proto
-
 import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
 
 
+package proto;
 
+// Имя сервиса
 service ClinicService{
 
-	rpc CreateClinet (CreateClientRequest) returns (CreateClientResponse);
-	rpc UpdateClient (UpdateClientRequest) returns (UpdateClientResponse);
-	rpc DeleteClient (DeleteClientRequest) returns (DeleteClientResponse);
+    // Добавление клиента
+	rpc CreateClinet (CreateClientRequest) returns (CreateClientResponse)
+    {
+        option (google.api.http)=
+        {
+            post: "/api/create"
+        };
+    };
+    // Обновление клиента
+	rpc UpdateClient (UpdateClientRequest) returns (UpdateClientResponse)
+    {
+        option (google.api.http)=
+        {
+            put: "/api/update"
+        };
+    };
+    
+    // Удаление клиента
+	rpc DeleteClient (DeleteClientRequest) returns (DeleteClientResponse)
+    {
+        option (google.api.http)=
+        {
+            delete: "/api/delete"
+        };
+    };
+    // Получить клиента по Id
 	rpc GetClientById (GetClientByIdRequest) returns (ClientResponse);
-	rpc GetClients (GetClientsRequest) returns (GetClientsResponse);
+    // Получить всех клиентов
+	rpc GetClients (GetClientsRequest) returns (GetClientsResponse)
+    {
+        option (google.api.http)={
+            get: "/api/clients"
+        };
+    }
+
 }
 
 
@@ -41,7 +70,7 @@ message UpdateClientRequest {
         string patronymic = 5;
 }
 
-message UpdateClientResponse {
+message UpdateClientResponse {       
 		int32 errCode = 1;
         string errMessage = 2;
 }
