@@ -36,6 +36,7 @@ namespace ClinicServiceV2.Services
                     ErrMessage = ""
                 };
 
+
                 return Task.FromResult(response);
             }
             catch (Exception e)
@@ -74,6 +75,72 @@ namespace ClinicServiceV2.Services
                     ErrMessage = "Internal server error."
                 };
 
+                return Task.FromResult(response);
+            }
+        }
+
+        public override Task<UpdateClientResponse> UpdateClient(UpdateClientRequest request, ServerCallContext context)
+        {
+            try
+            {
+
+                var clients = new Client
+                {
+                    ClientId = request.ClientId,
+                    Document = request.Document,
+                    FirstName = request.FirstName,
+                    Patronymic = request.Patronymic,
+                    Surname = request.Surname
+                };
+                _dbContext.Clients.Update(clients);
+                _dbContext.SaveChanges();
+
+                var response = new UpdateClientResponse
+                {
+                    ErrCode = 0,
+                    ErrMessage = "Клиент успешно обновлен"
+                };
+                return Task.FromResult(response);
+            }
+            catch (Exception)
+            {
+
+                var response = new UpdateClientResponse
+                {
+                    ErrCode = 1002,
+                    ErrMessage = "Internal server error."
+                };
+
+                return Task.FromResult(response);
+            }
+        }
+
+        public override Task<DeleteClientResponse> DeleteClient(DeleteClientRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var client = new Client
+                {
+                    ClientId = request.ClientId
+                };
+
+                _dbContext.Clients.Remove(client);
+                _dbContext.SaveChanges();
+
+                var response = new DeleteClientResponse
+                {
+                    ErrCode = 0,
+                    ErrMessage = "Клиент успешно удален"
+                };
+                return Task.FromResult(response);
+            }
+            catch (Exception)
+            {
+                var response = new DeleteClientResponse
+                {
+                    ErrCode = 1024,
+                    ErrMessage = "Ошибка при удалении клиента"
+                };
                 return Task.FromResult(response);
             }
         }

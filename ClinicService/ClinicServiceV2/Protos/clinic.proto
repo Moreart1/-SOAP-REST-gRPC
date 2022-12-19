@@ -12,12 +12,31 @@ package proto;
 service ClinicService{
 
     // Добавление клиента
-	rpc CreateClinet (CreateClientRequest) returns (CreateClientResponse);
+	rpc CreateClinet (CreateClientRequest) returns (CreateClientResponse)
+    {
+        option (google.api.http)=
+        {
+            post: "/api/create"
+        };
+    };
     // Обновление клиента
-	rpc UpdateClient (UpdateClientRequest) returns (UpdateClientResponse);
+	rpc UpdateClient (UpdateClientRequest) returns (UpdateClientResponse)
+    {
+        option (google.api.http)=
+        {
+            put: "/api/update"
+        };
+    };
+    
     // Удаление клиента
-	rpc DeleteClient (DeleteClientRequest) returns (DeleteClientResponse);
-    // Полусить клиента по Id
+	rpc DeleteClient (DeleteClientRequest) returns (DeleteClientResponse)
+    {
+        option (google.api.http)=
+        {
+            delete: "/api/delete"
+        };
+    };
+    // Получить клиента по Id
 	rpc GetClientById (GetClientByIdRequest) returns (ClientResponse);
     // Получить всех клиентов
 	rpc GetClients (GetClientsRequest) returns (GetClientsResponse)
@@ -51,7 +70,7 @@ message UpdateClientRequest {
         string patronymic = 5;
 }
 
-message UpdateClientResponse {
+message UpdateClientResponse {       
 		int32 errCode = 1;
         string errMessage = 2;
 }
